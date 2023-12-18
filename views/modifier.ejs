@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Modifier un élément</title>
+</head>
+<body>
+  <h1>Modifier un élément</h1>
+  <form action="/modifier/<%= element.id %>" method="POST">
+    <label for="nom">Nouveau nom :</label>
+    <input type="text" id="nom" name="nom" value="<%= element.nom %>" required><br><br>
+    <label for="type">Nouveau type :</label>
+    <input type="text" id="type" name="type" value="<%= element.type %>" required><br><br>
+    <button type="submit">Modifier</button>
+  </form>
+</body>
+</html>

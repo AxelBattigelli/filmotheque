@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Liste des éléments</title>
+</head>
+<body>
+    <!-- Ajoutez ce lien dans votre fichier elements.ejs -->
+    <a href="/ajouter">Ajouter un élément</a>
+
+  <h1>Liste des éléments</h1>
+  <ul>
+    <% elements.forEach(function(element) { %>
+      <li>
+        ID: <%= element.id %> - Nom: <%= element.nom %> - Type: <%= element.type %>
+        <a href="/modifier/<%= element.id %>">Modifier</a>
+        <form action="/supprimer/<%= element.id %>" method="POST" onsubmit="event.preventDefault(); deleteElement(<%= element.id %>)">
+            <input type="hidden" name="_method" value="DELETE"> <!-- Champ caché pour spécifier la méthode DELETE -->
+            <button type="submit">Supprimer</button>
+        </form>
+      </li>
+    <% }); %>
+  </ul>
+</body>
+<script>
+    function deleteElement(id) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')) {
+            fetch(`/supprimer/${id}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Actualiser la page ou faire toute autre action nécessaire après la suppression
+                    window.location.reload(); // Recharger la page après la suppression
+                } else {
+                    throw new Error('La suppression a échoué');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la suppression:', error);
+                // Gérer l'erreur ou informer l'utilisateur de l'échec de la suppression
+            });
+        }
+    }
+</script>
+</html>
