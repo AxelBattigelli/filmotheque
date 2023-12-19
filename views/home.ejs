@@ -47,38 +47,14 @@
   </style>
 </head>
 <body>
-  <a href="/admin/ajouter">Ajouter un élément</a>
+  <a href="/admin/elements">Admin</a>
   <h1>Liste des éléments</h1>
   <ul>
     <% elements.forEach(function(element) { %>
       <li>
         ID: <%= element.id %> - Nom: <%= element.nom %> - Type: <%= element.type %>
-        <a href="/admin/modifier/<%= element.id %>">Modifier</a>
-        <form action="/admin/supprimer/<%= element.id %>" method="POST" onsubmit="event.preventDefault(); deleteElement(<%= element.id %>)">
-          <input type="hidden" name="_method" value="DELETE">
-          <button type="submit">Supprimer</button>
-        </form>
       </li>
     <% }); %>
   </ul>
 </body>
-<script>
-  function deleteElement(id) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')) {
-      fetch(`/admin/supprimer/${id}`, {
-        method: 'DELETE',
-      })
-      .then(response => {
-        if (response.ok) {
-          window.location.reload();
-        } else {
-          throw new Error('La suppression a échoué');
-        }
-      })
-      .catch(error => {
-        console.error('Erreur lors de la suppression:', error);
-      });
-    }
-  }
-</script>
 </html>

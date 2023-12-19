@@ -2,77 +2,100 @@ const express = require('express');
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
+const fs = require('fs'); // Ajout du module 'fs' pour la manipulation des fichiers
 const app = express();
-const port = 3000; // Vous pouvez utiliser un port différent si celui-ci est déjà utilisé
+const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
-
-// Utilisation de method-override pour gérer DELETE via POST
 app.use(methodOverride('_method'));
-
-// Exemple de base de données JSON
-let elements = [
-  { id: 0, nom: 'Element 0', type: 'Type Z' },
-  { id: 1, nom: 'Element 1', type: 'Type A' },
-  { id: 2, nom: 'Element 2', type: 'Type B' },
-];
-
 app.use(bodyParser.json());
 
-// Récupérer tous les éléments
-app.get('/elements', (req, res) => {
-    res.render('elements', { elements });
-  });
+let elements = [];
 
-// Affichage du formulaire pour ajouter un élément
-app.get('/ajouter', (req, res) => {
-    res.render('ajouter');
-  });
-  
-  // Route pour recevoir les données du formulaire d'ajout
-  app.post('/ajouter', (req, res) => {
-    const { nom, type } = req.body;
-    const newElement = {
-      id: elements.length + 1,
-      nom,
-      type,
-    };
-    elements.push(newElement);
-    res.redirect('/elements');
-  });
-
-// Affichage du formulaire pour modifier un élément par son ID
-app.get('/modifier/:id', (req, res) => {
-    const { id } = req.params;
-    const element = elements.find(el => el.id === parseInt(id));
-    if (element) {
-      res.render('modifier', { element });
-    } else {
-      res.status(404).send('Élément non trouvé');
+// Lire à partir d'un fichier au démarrage du serveur
+function chargerElements() {
+  fs.readFile('elements.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erreur lors de la lecture du fichier elements.json :', err);
+      return;
+    }
+    try {
+      elements = JSON.parse(data);
+      console.log('Les éléments ont été chargés avec succès.');
+    } catch (error) {
+      console.error('Erreur lors du parsing du fichier JSON :', error);
     }
   });
-  
-  // Route pour recevoir les données du formulaire de modification
-  app.post('/modifier/:id', (req, res) => {
-    const { id } = req.params;
-    const { nom, type } = req.body;
-    const elementIndex = elements.findIndex(el => el.id === parseInt(id));
-    if (elementIndex !== -1) {
-      elements[elementIndex] = { ...elements[elementIndex], nom, type };
-      res.redirect('/elements');
-    } else {
-      res.status(404).send('Élément non trouvé');
+}
+
+// Écrire dans un fichier
+function sauvegarderElements() {
+  fs.writeFile('elements.json', JSON.stringify(elements), err => {
+    if (err) {
+      console.error('Erreur lors de la sauvegarde des éléments :', err);
+      return;
     }
+    console.log('Les éléments ont été sauvegardés avec succès.');
+  });
+}
+
+app.get('/', (req, res) => {
+    res.render('home', { elements });
   });
 
-// Route pour supprimer un élément par son ID
-app.delete('/supprimer/:id', (req, res) => {
-    const { id } = req.params;
-    elements = elements.filter(el => el.id !== parseInt(id));
-    res.sendStatus(204);
-  });
+app.get('/admin/elements', (req, res) => {
+  res.render('elements', { elements });
+});
+
+app.get('/admin/ajouter', (req, res) => {
+  res.render('ajouter');
+});
+
+app.post('/admin/ajouter', (req, res) => {
+  const { nom, type } = req.body;
+  const newElement = {
+    id: elements.length + 1,
+    nom,
+    type,
+  };
+  elements.push(newElement);
+  sauvegarderElements(); // Appel pour sauvegarder après l'ajout
+  res.redirect('/admin/elements');
+});
+
+app.get('/admin/modifier/:id', (req, res) => {
+  const { id } = req.params;
+  const element = elements.find(el => el.id === parseInt(id));
+  if (element) {
+    res.render('modifier', { element });
+  } else {
+    res.status(404).send('Élément non trouvé');
+  }
+});
+
+app.post('/admin/modifier/:id', (req, res) => {
+  const { id } = req.params;
+  const { nom, type } = req.body;
+  const elementIndex = elements.findIndex(el => el.id === parseInt(id));
+  if (elementIndex !== -1) {
+    elements[elementIndex] = { ...elements[elementIndex], nom, type };
+    sauvegarderElements(); // Appel pour sauvegarder après la modification
+    res.redirect('/admin/elements');
+  } else {
+    res.status(404).send('Élément non trouvé');
+  }
+});
+
+app.delete('/admin/supprimer/:id', (req, res) => {
+  const { id } = req.params;
+  elements = elements.filter(el => el.id !== parseInt(id));
+  sauvegarderElements(); // Appel pour sauvegarder après la suppression
+  res.sendStatus(204);
+});
+
+chargerElements(); // Appeler cette fonction au démarrage du serveur pour charger les données
 
 app.listen(port, () => {
   console.log(`Serveur démarré sur le port ${port}`);
