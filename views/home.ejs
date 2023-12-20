@@ -16,13 +16,6 @@
       list-style-type: none;
       padding: 0;
     }
-    li {
-      background-color: #fff;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
     a {
       text-decoration: none;
       color: #007bff;
@@ -44,15 +37,62 @@
     button[type="submit"]:hover {
       background-color: #c82333;
     }
+    .poster_elem {
+      float: right;
+      max-width: 100px;
+      height: auto;
+      display: block;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 8px;
+    }
+    li {
+      background-color: #fff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    li:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .def_max_width {
+      max-width: calc(100% - 100px);
+    }
   </style>
 </head>
 <body>
   <a href="/admin/elements">Admin</a>
+  <br>
   <h1>Liste des éléments</h1>
+  
+  <br>
+  <div>
+    <h3>Trier par :</h3>
+    <a href="/?sort=nom">Titre</a> |
+    <a href="/?sort=annee">Année</a> |
+    <a href="/?sort=genre">Genre</a>
+    <br><br>
+  </div>
+  <br>
+  
   <ul>
     <% elements.forEach(function(element) { %>
       <li>
-        ID: <%= element.id %> - Nom: <%= element.nom %> - Type: <%= element.type %>
+        <div style="overflow: hidden;">
+          <div style="float: left;" class="def_max_width">
+            Titre: <%= element.nom %> <br>
+            Annee: <%= element.annee %> <br>
+            Description: <%= element.description %> <br>
+            Genre: <%= element.genre %> <br><br>
+            Type: <%= element.type %>
+          </div>
+          <img src="images/<%= element.image %>" alt='Poster' class="poster_elem">
+        </div>
       </li>
     <% }); %>
   </ul>

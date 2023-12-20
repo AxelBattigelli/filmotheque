@@ -1,0 +1,16 @@
+modifier :
+    annuler button
+
+ajouter :
+    annuler button
+    select image from dtabase --> new page for upload content
+
+admin /
+    oAuth
+
+
++
+dtabase last seen
+bouton a cliquer sur elements --> ajoute la date
+    sinon default "Jamais"
+afficher sur home la date de dernier visionnage et le nb de fois

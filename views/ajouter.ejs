@@ -43,6 +43,28 @@
     button[type="submit"]:hover {
       background-color: #0056b3;
     }
+    select {
+      width: calc(100% + 5px);
+      padding: 8px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      appearance: none; /* Pour masquer la flèche de sélection par défaut */
+      background-image: linear-gradient(45deg, transparent 50%, #ccc 50%),
+                        linear-gradient(135deg, #ccc 50%, transparent 50%);
+      background-position: calc(100% - 20px) calc(1em + 2px),
+                          calc(100% - 15px) calc(1em + 2px);
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+    }
+    select:hover {
+      border-color: #007bff;
+    }
+    select:focus {
+      border-color: #0056b3;
+      outline: none;
+    }
   </style>
 </head>
 <body>
@@ -50,8 +72,23 @@
   <form action="/admin/ajouter" method="POST">
     <label for="nom">Nom :</label>
     <input type="text" id="nom" name="nom" required><br><br>
+    <label for="annee">Année :</label>
+    <input type="text" id="annee" name="annee" required><br><br>
+    <label for="description">Description :</label>
+    <input type="text" id="description" name="description" required><br><br>
+    <label for="genre">Genre :</label>
+    <select id="genre" name="genre" required>
+      <option value="Comédie">Comédie</option>
+      <option value="Fiction">Fiction</option>
+    </select><br><br>
+    <label for="image">Image :</label>
+    <input type="text" id="image" name="image" required><br><br>
     <label for="type">Type :</label>
-    <input type="text" id="type" name="type" required><br><br>
+    <select id="type" name="type" required>
+      <option value="Dvd">Dvd</option>
+      <option value="Blue-Ray">Blue-Ray</option>
+    </select>
+    <br><br>
     <button type="submit">Ajouter</button>
   </form>
 </body>

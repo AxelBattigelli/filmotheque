@@ -47,12 +47,32 @@
   </style>
 </head>
 <body>
+  <a href="/">Accueil</a> |
   <a href="/admin/ajouter">Ajouter un élément</a>
+  <br>
   <h1>Liste des éléments</h1>
+
+  <br>
+  <div>
+    <h3>Trier par :</h3>
+    <a href="/admin/elements/?sort=nom">Titre</a> |
+    <a href="/admin/elements/?sort=annee">Année</a> |
+    <a href="/admin/elements/?sort=genre">Genre</a>
+    <br><br>
+  </div>
+  <br>
+
   <ul>
     <% elements.forEach(function(element) { %>
       <li>
-        ID: <%= element.id %> - Nom: <%= element.nom %> - Type: <%= element.type %>
+        ID: <%= element.id %> <br><br>
+        Titre: <%= element.nom %> <br>
+        Annee: <%= element.annee %> <br>
+        Description: <%= element.description %> <br>
+        Genre: <%= element.genre %> <br>
+        Image: <%= element.image %> <br>
+        Type: <%= element.type %> <br>
+        <br>
         <a href="/admin/modifier/<%= element.id %>">Modifier</a>
         <form action="/admin/supprimer/<%= element.id %>" method="POST" onsubmit="event.preventDefault(); deleteElement(<%= element.id %>)">
           <input type="hidden" name="_method" value="DELETE">
