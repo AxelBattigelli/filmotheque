@@ -89,9 +89,19 @@
             Annee: <%= element.annee %> <br>
             Description: <%= element.description %> <br>
             Genre: <%= element.genre %> <br><br>
-            Type: <%= element.type %>
+            Type: <%= element.type %> <br><br>
+
+            <% let compt = 0; %>
+            <% if (views[element.id] != undefined) { compt = views[element.id].length;} %>
+            
+            <% if (compt != 0) { %>
+              Vues: <%= compt %> fois, Dernière vue: <%= views[element.id][compt - 1] %>
+            <% } else { %>
+              Vues: Jamais
+            <% } %>
+
           </div>
-          <img src="images/<%= element.image %>" alt='Poster' class="poster_elem">
+          <img src="images/<%= element.image %>" alt='🔍 Poster ?' class="poster_elem">
         </div>
       </li>
     <% }); %>

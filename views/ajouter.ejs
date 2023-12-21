@@ -13,7 +13,7 @@
       text-align: center;
     }
     form {
-      max-width: 400px;
+      max-width: 800px;
       margin: 0 auto;
       background-color: #fff;
       padding: 20px;
@@ -43,6 +43,20 @@
     button[type="submit"]:hover {
       background-color: #0056b3;
     }
+    .cancel_button {
+      padding: 10px 20px;
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      
+    }
+    .cancel_button:hover {
+      background-color: #c82333;
+    }
     select {
       width: calc(100% + 5px);
       padding: 8px;
@@ -70,7 +84,7 @@
 <body>
   <h1>Ajouter un élément</h1>
   <form action="/admin/ajouter" method="POST">
-    <label for="nom">Nom :</label>
+    <label for="nom">Titre :</label>
     <input type="text" id="nom" name="nom" required><br><br>
     <label for="annee">Année :</label>
     <input type="text" id="annee" name="annee" required><br><br>
@@ -78,8 +92,9 @@
     <input type="text" id="description" name="description" required><br><br>
     <label for="genre">Genre :</label>
     <select id="genre" name="genre" required>
-      <option value="Comédie">Comédie</option>
-      <option value="Fiction">Fiction</option>
+    <% categories.forEach((e) => { %>
+      <option value="<%= e %>"><%= e %></option>
+    <% }); %>
     </select><br><br>
     <label for="image">Image :</label>
     <input type="text" id="image" name="image" required><br><br>
@@ -90,6 +105,7 @@
     </select>
     <br><br>
     <button type="submit">Ajouter</button>
+    <a class="cancel_button" href="/admin/elements">Annuler</a>
   </form>
 </body>
 </html>

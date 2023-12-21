@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ajouter un élément</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .cancel_button {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+
+        }
+
+        .cancel_button:hover {
+            background-color: #c82333;
+        }
+
+        .all_images {
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            column-gap: 15px;
+            row-gap: 15px;
+        }
+
+        .poster_elem {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-flow: column;
+        }
+
+        .copied {
+            position: relative;
+        }
+
+        .nom {
+            cursor: copy;
+            min-width: 1px;
+            height: 100%;
+            display: inline-block;
+        }
+
+        @keyframes appear {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .copied::before {
+            top: 100%;
+            background: #2eaa4d;
+            border-radius: 5px;
+            color: #fff;
+            content: "Copié !";
+            padding: 5px 15px;
+            position: absolute;
+            z-index: 98;
+            width: max-content;
+            margin-top: 10px;
+            animation:
+                0.5s ease-in-out appear,
+                0.5s ease-in-out reverse 4.5s forwards appear;
+        }
+
+        .copied::after {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 10px solid #2eaa4d;
+            content: ' ';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            animation:
+                0.5s ease-in-out appear,
+                0.5s ease-in-out reverse forwards 4.5s appear;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/admin/elements">Admin</a>
+    <br>
+    <h1>Gallery</h1>
+    <br>
+
+    <form action="/admin/gallery" method="POST">
+        <label for="image">Ajouter une image :</label>
+        <input type="text" id="image" name="image" required><br><br>
+        <br><br>
+        <button type="submit">Ajouter</button>
+        <a class="cancel_button" href="/admin/elements">Annuler</a>
+    </form>
+    <br><br>
+    <div class="all_images">
+        <% elements.forEach(function(element) { %>
+            <div class="poster_elem">
+                <img src="/images/<%= element.image %>" alt='🔍 Poster ?'>
+                <p class="image_name">Nom: <span class="nom">
+                        <%= element.image %>
+                    </span>
+                </p>
+            </div>
+            <% }); %>
+    </div>
+
+    <script>
+        for (let elem of document.getElementsByClassName("nom")) {
+            elem.addEventListener('click', (ev) => {
+                if (ev.target.textContent.trim() == "")
+                    navigator.clipboard.writeText("Bien essayé, bravo!");
+                else
+                    navigator.clipboard.writeText(ev.target.textContent);
+                ev.target.classList.add("copied");
+                setTimeout((e) => {
+                    e.classList.remove("copied");
+                }, 5000, ev.target);
+            })
+        }
+    </script>
+</body>
+
+</html>

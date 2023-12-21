@@ -7,9 +7,12 @@
     },
     {
         "id": 3,
-        "nom": "abc",
-        "type": "a",
-        "genre": "baaa"
+        "nom": "abcd",
+        "type": "Dvd",
+        "genre": "Aventure",
+        "annee": "3092",
+        "description": "Oue le film il est bien et tout",
+        "image": "hg.webp"
     },
     {
         "id": 4,
@@ -52,15 +55,6 @@
         "description": "zsedrftgyuhi",
         "genre": "tcfyvguh",
         "image": "hg.webp"
-    },
-    {
-        "id": 9,
-        "nom": "ze",
-        "type": "Dvd",
-        "annee": "2222",
-        "description": "d",
-        "genre": "d",
-        "image": "avatar.png"
     },
     {
         "id": 10,
@@ -151,5 +145,32 @@
         "description": "cj",
         "genre": "Fiction",
         "image": "avatar.png"
+    },
+    {
+        "id": 20,
+        "nom": "tcfyvu",
+        "type": "Dvd",
+        "annee": "rg",
+        "description": "rbdytfj",
+        "genre": "Comédie",
+        "image": " ythyjedrftygui"
+    },
+    {
+        "id": 21,
+        "nom": "dxcfygvhj",
+        "type": "Blue-Ray",
+        "annee": "tyugihoj",
+        "description": "fcguvhijk",
+        "genre": "Espionnage",
+        "image": "avatar.png"
+    },
+    {
+        "id": 22,
+        "nom": "",
+        "type": "Dvd",
+        "annee": "",
+        "description": "",
+        "genre": "Aventure",
+        "image": "hg.webp"
     }
 ]

@@ -48,9 +48,10 @@
 </head>
 <body>
   <a href="/">Accueil</a> |
-  <a href="/admin/ajouter">Ajouter un élément</a>
+  <a href="/admin/ajouter">Ajouter un élément</a> |
+  <a href="/admin/gallery">Gallery</a>
   <br>
-  <h1>Liste des éléments</h1>
+  <h1>Liste des éléments modifiables</h1>
 
   <br>
   <div>
@@ -77,6 +78,9 @@
         <form action="/admin/supprimer/<%= element.id %>" method="POST" onsubmit="event.preventDefault(); deleteElement(<%= element.id %>)">
           <input type="hidden" name="_method" value="DELETE">
           <button type="submit">Supprimer</button>
+        </form>
+        <form action="/admin/vu/<%= element.id %>" method="POST">
+          <button type="submit">Je l'ai vu !</button>
         </form>
       </li>
     <% }); %>
